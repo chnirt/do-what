@@ -8,110 +8,156 @@
  * @format
  */
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import React, {Fragment, useState} from 'react';
+import {StyleSheet, View, Text, ImageBackground, Image} from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {WINDOW_WIDTH, WINDOW_HEIGHT} from './src/constants';
+import {HeartSVG} from './src/assets';
+import {getZodiacSVG, getGenderSVG} from './src/utils';
 
-declare const global: {HermesInternal: null | {}};
+const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+const now = new Date();
+const currentYear = now.getFullYear();
+const currentMonth = now.getMonth();
+const currentDate = now.getDate();
 
 const App = () => {
+  const [info, setInfo] = useState([
+    {
+      type: 'INFO',
+      avatar:
+        'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg?cs=srgb&dl=pexels-spencer-selover-775358.jpg&fm=jpg',
+      name: 'Me',
+      gender: 'man',
+      dob: new Date(1994, 3 - 1, 18),
+    },
+    {type: 'HEART'},
+    {
+      type: 'INFO',
+      avatar:
+        'https://images.pexels.com/photos/1845208/pexels-photo-1845208.jpeg?cs=srgb&dl=pexels-gustavo-peres-1845208.jpg&fm=jpg',
+      name: 'You',
+      gender: 'woman',
+      dob: new Date(1996, 9 - 1, 1),
+    },
+  ]);
+  const [background, setBackground] = useState(
+    'https://images.wallpaperscraft.com/image/couple_kiss_sunset_135411_3415x3415.jpg',
+  );
+
+  const [startedDate, setStartedDate] = useState(new Date(2021, 2 - 1, 12));
+  const [endedDate, setEndedDate] = useState(
+    new Date(currentYear, currentMonth, currentDate),
+  );
+  const diffTime = Math.abs(+endedDate - +startedDate);
+  const diffDays = Math.ceil(diffTime / oneDay);
+
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
+    <Fragment>
+      <ImageBackground
+        style={styles.background}
+        source={{
+          uri: background,
+        }}
+        imageStyle={styles.imageStyle}>
+        <View style={styles.container}>
+          <View style={styles.daysContainer}>
+            <Text style={styles.daysText}>
+              <Text style={styles.numberText}>{diffDays}6789</Text> days
+            </Text>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+          <View style={styles.infoContainer}>
+            {info.length > 0 &&
+              info.map((element, index) => {
+                if (element.type === 'HEART') {
+                  return (
+                    <View key={index} style={styles.infoItem}>
+                      <HeartSVG width={50} height={50} />
+                    </View>
+                  );
+                }
+
+                const date = new Date(element?.dob).getDate();
+                const month = new Date(element?.dob).getMonth() + 1;
+
+                return (
+                  <View key={index} style={styles.infoItem}>
+                    <Image
+                      style={styles.avatar}
+                      source={{
+                        uri: element?.avatar,
+                      }}
+                      resizeMode="cover"
+                    />
+                    <View style={styles.profileContainer}>
+                      <View style={styles.row1}>
+                        <Text style={styles.nameText}>{element?.name}</Text>
+                      </View>
+                      <View style={styles.row2}>
+                        {getZodiacSVG(month, date)}
+                        {getGenderSVG(element?.gender)}
+                      </View>
+                    </View>
+                  </View>
+                );
+              })}
+          </View>
+        </View>
+      </ImageBackground>
+    </Fragment>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  background: {
+    width: WINDOW_WIDTH,
+    height: WINDOW_HEIGHT,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  imageStyle: {resizeMode: 'cover'},
+  container: {
+    flex: 1,
+    justifyContent: 'space-evenly',
   },
-  body: {
-    backgroundColor: Colors.white,
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  infoItem: {},
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 100 / 2,
+    borderWidth: 3,
+    borderColor: '#fff',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+  profileContainer: {
+    marginTop: 10,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
+  row1: {},
+  row2: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: 10,
   },
-  highlight: {
-    fontWeight: '700',
+  text: {
+    color: '#fff',
+    textAlign: 'center',
   },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  nameText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  daysContainer: {},
+  daysText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 50,
+  },
+  numberText: {
+    fontSize: 60,
+    fontWeight: 'bold',
   },
 });
 
