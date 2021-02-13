@@ -62,6 +62,7 @@ const App = () => {
         imageStyle={styles.imageStyle}>
         <View style={styles.container}>
           <View style={styles.daysContainer}>
+            <Text style={styles.daysText}>Forever w U</Text>
             <Text style={styles.daysText}>
               <Text style={styles.numberText}>{diffDays}6789</Text> days
             </Text>
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-evenly',
+    backgroundColor: '#00000090',
   },
   infoContainer: {
     flexDirection: 'row',
