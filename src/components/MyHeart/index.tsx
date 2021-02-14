@@ -11,6 +11,7 @@ const negativeEndY = animationEndY * -1;
 interface IHeart {
   id: number;
   right: number;
+  color: string;
 }
 
 function getRandomNumber(min: number, max: number) {
@@ -108,9 +109,9 @@ function HeartContainer({right = 0, color = PRIMARY_COLOR}) {
   );
 }
 
-function Heart({color = PRIMARY_COLOR}) {
+function Heart({color = PRIMARY_COLOR, width = 25, height = 25}) {
   return (
-    <HeartSVG style={[styles.heart]} width={25} height={25} fill={color} />
+    <HeartSVG style={styles.heart} width={width} height={height} fill={color} />
   );
 }
 
@@ -140,17 +141,22 @@ export function MyHeart() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {hearts.length > 0 &&
         hearts.map((heart, i) => {
           const {right, color} = heart;
           return <HeartContainer key={i} right={right} color={color} />;
         })}
+      <Heart width={40} height={40} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   heartContainer: {
     position: 'absolute',
     backgroundColor: 'transparent',
