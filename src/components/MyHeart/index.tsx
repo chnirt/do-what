@@ -117,11 +117,31 @@ function Heart({color = PRIMARY_COLOR, width = 25, height = 25}) {
 
 export function MyHeart() {
   const [hearts, setHearts] = useState<IHeart[]>([]);
+  const heartScaleAnimation = useRef(new Animated.Value(1)).current;
+  const heartFadeAnimation = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    const random = getRandomNumber(0, 500);
     const interval = setInterval(() => {
       addHeart();
-    }, getRandomNumber(0, 500));
+    }, random);
+
+    Animated.loop(
+      Animated.parallel([
+        Animated.timing(heartScaleAnimation, {
+          toValue: 1.2,
+          duration: random,
+          delay: 0,
+          useNativeDriver: false,
+        }),
+        Animated.timing(heartFadeAnimation, {
+          toValue: 0.5,
+          duration: random,
+          delay: 0,
+          useNativeDriver: false,
+        }),
+      ]),
+    ).start();
 
     return () => {
       clearInterval(interval);
@@ -147,7 +167,20 @@ export function MyHeart() {
           const {right, color} = heart;
           return <HeartContainer key={i} right={right} color={color} />;
         })}
-      <Heart width={40} height={40} />
+      <Animated.View
+        style={[
+          {alignItems: 'center'},
+          {
+            opacity: heartFadeAnimation,
+            transform: [
+              {
+                scale: heartScaleAnimation,
+              },
+            ],
+          },
+        ]}>
+        <Heart width={40} height={40} />
+      </Animated.View>
     </View>
   );
 }

@@ -34,9 +34,9 @@ const App = () => {
     {
       avatar:
         'https://images.pexels.com/photos/1845208/pexels-photo-1845208.jpeg?cs=srgb&dl=pexels-gustavo-peres-1845208.jpg&fm=jpg',
-      name: 'You',
+      name: 'Partner',
       gender: 'woman',
-      dob: new Date(1996, 9 - 1, 1),
+      dob: new Date(1998, 9 - 1, 1),
     },
   ]);
   const [background, setBackground] = useState(
