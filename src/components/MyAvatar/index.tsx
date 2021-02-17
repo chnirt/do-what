@@ -3,7 +3,7 @@ import {Image, TouchableOpacity} from 'react-native';
 
 import {styles} from './styles';
 import {IMyAvatar} from './types';
-import {PlusSvg} from '../../assets';
+// import {PlusSvg} from '../../assets';
 
 export function MyAvatar({uri, onPress = () => {}, children}: IMyAvatar) {
   return (
@@ -20,7 +20,7 @@ export function MyAvatar({uri, onPress = () => {}, children}: IMyAvatar) {
         children
       )}
 
-      <PlusSvg style={styles.plus} fill="#fff" width={20} height={20} />
+      {/* <PlusSvg style={styles.plus} fill="#fff" width={20} height={20} /> */}
     </TouchableOpacity>
   );
 }

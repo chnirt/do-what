@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100 / 2,
     borderWidth: 3,
     borderColor: '#fff',
+    backgroundColor: '#d3d3d3',
   },
   avatar: {
     width: 100,

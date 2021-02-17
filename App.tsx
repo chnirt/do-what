@@ -12,10 +12,14 @@ import React, {Fragment, useState} from 'react';
 import {StyleSheet, View, Text, ImageBackground} from 'react-native';
 
 import {WINDOW_WIDTH, WINDOW_HEIGHT, REGULAR_FONTS} from './src/constants';
-import {getZodiacSVG, getGenderSVG, getAvatarSVG} from './src/utils';
+import {
+  getZodiacSVG,
+  getGenderSVG,
+  getAvatarSVG,
+  getDiffDays,
+} from './src/utils';
 import {MyAvatar, MyHeart} from './src/components';
 
-const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 const now = new Date();
 const currentYear = now.getFullYear();
 const currentMonth = now.getMonth();
@@ -31,8 +35,8 @@ const App = () => {
       dob: new Date(1994, 3 - 1, 18),
     },
     {
-      // avatar:
-      //   'https://images.pexels.com/photos/1845208/pexels-photo-1845208.jpeg?cs=srgb&dl=pexels-gustavo-peres-1845208.jpg&fm=jpg',
+      avatar:
+        'https://images.pexels.com/photos/1845208/pexels-photo-1845208.jpeg?cs=srgb&dl=pexels-gustavo-peres-1845208.jpg&fm=jpg',
       name: 'Partner',
       gender: 'woman',
       dob: new Date(1998, 9 - 1, 1),
@@ -46,8 +50,15 @@ const App = () => {
   const [endedDate, setEndedDate] = useState(
     new Date(currentYear, currentMonth, currentDate),
   );
-  const diffTime = Math.abs(+endedDate - +startedDate);
-  const diffDays = Math.ceil(diffTime / oneDay);
+  const diffDays = getDiffDays(startedDate, endedDate);
+
+  function changeAvatar(index: number) {
+    if (index === 0) {
+      console.log('0');
+      return;
+    }
+    console.log('1');
+  }
 
   return (
     <Fragment>
@@ -78,7 +89,7 @@ const App = () => {
                   <View key={index} style={styles.infoItem}>
                     <MyAvatar
                       uri={element.avatar}
-                      onPress={() => console.log('zxc')}>
+                      onPress={() => changeAvatar(index)}>
                       {getAvatarSVG(element.gender)}
                     </MyAvatar>
                     <View style={styles.profileContainer}>
@@ -86,8 +97,8 @@ const App = () => {
                         <Text style={styles.nameText}>{element?.name}</Text>
                       </View>
                       <View style={styles.row2}>
-                        {getZodiacSVG(month, date)}
                         {getGenderSVG(element.gender)}
+                        {getZodiacSVG(month, date)}
                       </View>
                     </View>
                   </View>
