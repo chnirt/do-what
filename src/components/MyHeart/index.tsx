@@ -129,13 +129,13 @@ export function MyHeart() {
     Animated.loop(
       Animated.parallel([
         Animated.timing(heartScaleAnimation, {
-          toValue: 1.2,
+          toValue: 1.1,
           duration: random,
           delay: 0,
           useNativeDriver: false,
         }),
         Animated.timing(heartFadeAnimation, {
-          toValue: 0.5,
+          toValue: 1,
           duration: random,
           delay: 0,
           useNativeDriver: false,
@@ -146,7 +146,7 @@ export function MyHeart() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [heartScaleAnimation, heartFadeAnimation]);
 
   const addHeart = () => {
     setHearts((prevState) => [
@@ -169,7 +169,7 @@ export function MyHeart() {
         })}
       <Animated.View
         style={[
-          {alignItems: 'center'},
+          styles.center,
           {
             opacity: heartFadeAnimation,
             transform: [
@@ -193,6 +193,9 @@ const styles = StyleSheet.create({
   heartContainer: {
     position: 'absolute',
     backgroundColor: 'transparent',
+  },
+  center: {
+    alignItems: 'center',
   },
   heart: {
     position: 'absolute',

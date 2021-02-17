@@ -9,11 +9,11 @@
  */
 
 import React, {Fragment, useState} from 'react';
-import {StyleSheet, View, Text, ImageBackground, Image} from 'react-native';
+import {StyleSheet, View, Text, ImageBackground} from 'react-native';
 
-import {WINDOW_WIDTH, WINDOW_HEIGHT} from './src/constants';
-import {getZodiacSVG, getGenderSVG} from './src/utils';
-import {MyHeart} from './src/components';
+import {WINDOW_WIDTH, WINDOW_HEIGHT, REGULAR_FONTS} from './src/constants';
+import {getZodiacSVG, getGenderSVG, getAvatarSVG} from './src/utils';
+import {MyAvatar, MyHeart} from './src/components';
 
 const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 const now = new Date();
@@ -24,16 +24,15 @@ const currentDate = now.getDate();
 const App = () => {
   const [info, setInfo] = useState([
     {
-      // avatar: null,
-      avatar:
-        'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg?cs=srgb&dl=pexels-spencer-selover-775358.jpg&fm=jpg',
+      // avatar:
+      //   'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg?cs=srgb&dl=pexels-spencer-selover-775358.jpg&fm=jpg',
       name: 'Me',
       gender: 'man',
       dob: new Date(1994, 3 - 1, 18),
     },
     {
-      avatar:
-        'https://images.pexels.com/photos/1845208/pexels-photo-1845208.jpeg?cs=srgb&dl=pexels-gustavo-peres-1845208.jpg&fm=jpg',
+      // avatar:
+      //   'https://images.pexels.com/photos/1845208/pexels-photo-1845208.jpeg?cs=srgb&dl=pexels-gustavo-peres-1845208.jpg&fm=jpg',
       name: 'Partner',
       gender: 'woman',
       dob: new Date(1998, 9 - 1, 1),
@@ -60,7 +59,7 @@ const App = () => {
         imageStyle={styles.imageStyle}>
         <View style={styles.container}>
           <View style={styles.daysContainer}>
-            <Text style={styles.daysText}>Forever w U</Text>
+            <Text style={styles.daysText}>with U</Text>
             <Text style={styles.daysText}>
               <Text style={styles.numberText}>{diffDays}6789</Text> days
             </Text>
@@ -77,20 +76,18 @@ const App = () => {
 
                 return (
                   <View key={index} style={styles.infoItem}>
-                    <Image
-                      style={styles.avatar}
-                      source={{
-                        uri: element?.avatar,
-                      }}
-                      resizeMode="cover"
-                    />
+                    <MyAvatar
+                      uri={element.avatar}
+                      onPress={() => console.log('zxc')}>
+                      {getAvatarSVG(element.gender)}
+                    </MyAvatar>
                     <View style={styles.profileContainer}>
                       <View style={styles.row1}>
                         <Text style={styles.nameText}>{element?.name}</Text>
                       </View>
                       <View style={styles.row2}>
                         {getZodiacSVG(month, date)}
-                        {getGenderSVG(element?.gender)}
+                        {getGenderSVG(element.gender)}
                       </View>
                     </View>
                   </View>
@@ -112,7 +109,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-evenly',
-    // backgroundColor: '#00000090',
+    backgroundColor: '#00000090',
   },
   infoContainer: {
     flexDirection: 'row',
@@ -126,16 +123,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1,
+    zIndex: -1,
   },
   infoItem: {},
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 100 / 2,
-    borderWidth: 3,
-    borderColor: '#fff',
-  },
   profileContainer: {
     marginTop: 10,
   },
@@ -146,10 +136,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   text: {
+    fontFamily: REGULAR_FONTS,
     color: '#fff',
     textAlign: 'center',
   },
   nameText: {
+    fontFamily: REGULAR_FONTS,
     color: '#fff',
     textAlign: 'center',
     fontSize: 20,
@@ -157,11 +149,13 @@ const styles = StyleSheet.create({
   },
   daysContainer: {},
   daysText: {
+    fontFamily: REGULAR_FONTS,
     color: '#fff',
     textAlign: 'center',
     fontSize: 50,
   },
   numberText: {
+    fontFamily: REGULAR_FONTS,
     fontSize: 60,
     fontWeight: 'bold',
   },
