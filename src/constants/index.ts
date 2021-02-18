@@ -1,19 +1,16 @@
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform} from 'react-native';
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
-const WINDOW_HEIGHT = Dimensions.get('window').height;
+export const {width: WINDOW_WIDTH, height: WINDOW_HEIGHT} = Dimensions.get(
+  'window',
+);
 
-const PRIMARY_COLOR = '#9254de';
+export const DESIGN_WIDTH = 375;
+export const DESIGN_HEIGHT = 812;
 
-const ITALIC_FONTS = 'RobotoMono-Italic';
-const MEDIUM_FONTS = 'RobotoMono-Medium';
-const REGULAR_FONTS = 'RobotoMono-Regular';
+export const PRIMARY_COLOR = '#9254de';
 
-export {
-  WINDOW_WIDTH,
-  WINDOW_HEIGHT,
-  PRIMARY_COLOR,
-  ITALIC_FONTS,
-  MEDIUM_FONTS,
-  REGULAR_FONTS,
-};
+export const IS_IOS = Platform.OS === 'ios';
+
+export const ITALIC_FONTS = 'RobotoMono-Italic';
+export const MEDIUM_FONTS = 'RobotoMono-Medium';
+export const REGULAR_FONTS = 'RobotoMono-Regular';

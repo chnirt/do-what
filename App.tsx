@@ -17,6 +17,8 @@ import {
   getGenderSVG,
   getAvatarSVG,
   getDiffDays,
+  hp,
+  fp,
 } from './src/utils';
 import {MyAvatar, MyHeart} from './src/components';
 
@@ -138,36 +140,38 @@ const styles = StyleSheet.create({
   },
   infoItem: {},
   profileContainer: {
-    marginTop: 10,
+    marginTop: hp(10),
   },
   row1: {},
   row2: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: 10,
+    marginTop: hp(10),
   },
   text: {
     fontFamily: REGULAR_FONTS,
     color: '#fff',
+    fontSize: fp(20),
     textAlign: 'center',
   },
   nameText: {
     fontFamily: REGULAR_FONTS,
+    fontSize: fp(20),
     color: '#fff',
     textAlign: 'center',
-    fontSize: 20,
     fontWeight: 'bold',
   },
   daysContainer: {},
   daysText: {
     fontFamily: REGULAR_FONTS,
+    fontSize: fp(50),
+
     color: '#fff',
     textAlign: 'center',
-    fontSize: 50,
   },
   numberText: {
     fontFamily: REGULAR_FONTS,
-    fontSize: 60,
+    fontSize: fp(60),
     fontWeight: 'bold',
   },
 });

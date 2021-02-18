@@ -1,3 +1,5 @@
+export * from './pixelRatio';
+
 export * from './formatDate';
 export * from './getDiffDays';
 
